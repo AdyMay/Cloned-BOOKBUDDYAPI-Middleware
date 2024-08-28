@@ -6,7 +6,7 @@ const {
   getUsers,
   getUserByEmail,
   createUser,
-} = require("../db/users");
+} = require("../db-cloned/users");
 
 const jwt = require("jsonwebtoken");
 

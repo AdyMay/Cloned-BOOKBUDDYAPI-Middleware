@@ -1,23 +1,38 @@
 const express = require("express");
 const app = express();
-require("dotenv").config();
-const client = require("./db/client");
-client.connect();
-const PORT = 3000;
+
 app.use(express.json());
 
-console.log(process.env.JWT_SECRET);
-// we're registering the routes in /api/index.js ===> IOW, request to /api ---> send request to /api/index.js
-app.use("/api", require("./api"));
+app.use((req, res, next) => {
+  console.log("The Middleware in index.js");
+  next();
+});
+
+app.use("/API", require("./API"));
 
 app.get("/", (req, res) => {
-  res.send("Hello from our server");
+  console.log(json);
+  res.send("Hello");
 });
 
-app.use((err, req, res, next) => {
-  res.status(500).send("Something broke...");
+app.get("/TODO", async (req, res, next) => {
+  try {
+    const response = await fetch("https://jsonplaceholder.typicode.com/todos");
+    const json = await response.json();
+    res.send(json);
+  } catch (err) {
+    next(err);
+  }
+  res.send("Hello");
 });
 
-app.listen(PORT, () => {
-  console.log(`Server alive on port ${PORT}`);
+app.use((error, req, res, next) => {
+  console.log("Error", error);
+  res.send({
+    message: error.message,
+  });
+});
+
+app.listen(8080, () => {
+  console.log("The server is Running");
 });
