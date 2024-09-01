@@ -8,14 +8,15 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("/API", require("./API"));
+app.use("/api", require("./api"));
 
 app.get("/", (req, res) => {
   console.log(json);
   res.send("Hello");
 });
 
-app.get("/TODO", async (req, res, next) => {
+// TODO
+app.get("/", async (req, res, next) => {
   try {
     const response = await fetch("https://jsonplaceholder.typicode.com/todos");
     const json = await response.json();
@@ -34,5 +35,5 @@ app.use((error, req, res, next) => {
 });
 
 app.listen(8080, () => {
-  console.log("The server is Running");
+  console.log("The Server is Running");
 });
